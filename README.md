@@ -1,4 +1,4 @@
-# [Név]
+# [Kékesi Bence Zoltán]
 
 ## Hogyan kezdj neki?
 
