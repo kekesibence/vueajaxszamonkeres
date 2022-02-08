@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-
-    <table>
-      <thead>
+    <h1>Statues list</h1>
+    <table class="table table-striped">
+      <thead class="thead-dark">
         <tr>
-          <th>ID</th>
-          <th>Person</th>
-          <th>Height</th>
-          <th>Price</th>
-          <th>Methods</th>
+          <th scope="col">#</th>
+          <th scope="col">Person</th>
+          <th scope="col">Height</th>
+          <th scope="col">Price</th>
+          <th scope="col">Methods</th>
         </tr>
       </thead>
       <tbody>
@@ -18,8 +18,8 @@
           <td>{{ statue.height }}</td>
           <td>{{ statue.price }}</td>
           <td>
-            <button @click="deleteStatue(statue.id)">Delete</button>
-            <button @click="editStatue(statue.id)">Edit</button>
+            <button @click="deleteStatue(statue.id)" class="btn btn-danger">Delete</button>
+            <button @click="editStatue(statue.id)" class="btn btn-warning">Edit</button>
           </td>
         </tr>
         <tr>
@@ -36,9 +36,9 @@
             <input type="number" placeholder="Statue price" v-model="statue.price">
           </td>
           <td>
-            <button v-if="mod_new" @click="newStatue" :disabled="saving">Add new</button>
-            <button v-if="!mod_new" @click="saveStatue" :disabled="saving">Save</button>
-            <button v-if="!mod_new" @click="cancelEdit" :disabled="saving">Back</button>
+            <button v-if="mod_new" @click="newStatue" :disabled="saving" class="btn btn-success">Add new</button>
+            <button v-if="!mod_new" @click="saveStatue" :disabled="saving" class="btn btn-success">Save</button>
+            <button v-if="!mod_new" @click="cancelEdit" :disabled="saving" class="btn btn-dark">Back</button>
           </td>
         </tr>
       </tbody>
@@ -56,7 +56,7 @@ export default {
       mod_new: true, 
       saving: false,
       statue: {
-        id: null,
+        id: 0,
         person: '',
         height: '',
         price: ''
@@ -79,6 +79,7 @@ export default {
     },
     async newStatue() {
       this.saving='disabled'
+      console.log(this.statue)
      await fetch('http://127.0.0.1:8000/api/statues', {
        method: 'POST',
        headers: {
@@ -89,7 +90,6 @@ export default {
      })
      await this.loadData()
      this.saving=false
-     this.resetForm()
     },
     async saveStatue() {
       this.saving='disabled'
@@ -110,6 +110,7 @@ export default {
       let data = await Response.json()
       this.statue = {...data};
       this.mod_new = false
+      this.resetForm()
     },
     cancelEdit () {
       this.resetForm()
@@ -117,9 +118,9 @@ export default {
     resetForm() {
       this.statue = {
         id: null,
-        title: '',
-        year: '',
-        on_display: false
+        person: '',
+        height: '',
+        price: ''
       }
       this.mod_new = true
     }
@@ -130,12 +131,12 @@ export default {
 }
 </script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.mt-0 {
+  margin-top: 0 !important;
 }
+
+h1 {
+  text-align: center;
+}
+
 </style>
